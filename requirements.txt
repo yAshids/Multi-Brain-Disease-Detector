@@ -1,0 +1,17 @@
+Flask
+tensorflow
+numpy
+matplotlib
+seaborn
+scikit-image
+scikit-learn
+imblearn
+imbalanced-learn
+requests
+reportlab
+qrcode
+Pillow
+Werkzeug
+streamlit
+google-generativeai
+gunicorn
