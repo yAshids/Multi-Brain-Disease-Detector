@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Brain Image Comparison</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts for a modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #e0eafc, #cfdef3);
+            min-height: 100vh;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .comparison-container {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            padding: 2rem 2rem 1rem 2rem;
+            margin-top: 40px;
+            animation: fadeInUp 1s;
+        }
+        h2 {
+            color: #0077b6;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+        }
+        .comparison-img {
+            display: block;
+            margin: 0 auto 24px auto;
+            max-width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,123,255,0.08);
+            animation: popIn 1s;
+        }
+        .btn-home {
+            display: block;
+            margin: 0 auto;
+            background: linear-gradient(90deg, #0077b6, #00b4d8);
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            padding: 0.75rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: background 0.3s, transform 0.2s;
+        }
+        .btn-home:hover {
+            background: linear-gradient(90deg, #00b4d8, #0077b6);
+            transform: scale(1.05);
+            color: #fff;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.9);}
+            to { opacity: 1; transform: scale(1);}
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="comparison-container mx-auto col-md-8 col-lg-6">
+            <h2>Brain Image Comparison</h2>
+            <img src="{{ plot_url }}" alt="Comparison Plot" class="comparison-img">
+            <a href="{{ url_for('index2') }}" class="btn btn-home mt-3">Back to Home</a>
+        </div>
+    </div>
+    <!-- Bootstrap JS (optional, for advanced components) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

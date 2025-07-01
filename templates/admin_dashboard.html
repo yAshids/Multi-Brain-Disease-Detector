@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #e0eafc, #cfdef3);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            color: #222;
+        }
+        .dashboard-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+        .sidebar {
+            background: #203a43;
+            color: #fff;
+            width: 120px;
+            min-height: 100vh;
+            padding: 40px 20px 20px 20px;
+            box-shadow: 2px 0 12px rgba(32,58,67,0.06);
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            margin-bottom: 18px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .sidebar a:hover { color: #00bfa5; }
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 4vw;
+            animation: slideIn 0.8s cubic-bezier(.77,0,.18,1);
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        h1 {
+            font-size: 2.2em;
+            margin-bottom: 30px;
+            background: linear-gradient(90deg, #2d2c2c, #129460);
+            -webkit-background-clip: text;
+            color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .search-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 30px;
+        }
+        .search-container input {
+            width: 100%;
+            padding: 12px 40px 12px 16px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1em;
+            outline: none;
+            background: #f7fafc;
+            box-shadow: 0 2px 8px rgba(32,58,67,0.08);
+            transition: box-shadow 0.2s;
+        }
+        .search-container input:focus {
+            box-shadow: 0 4px 16px rgba(0,255,204,0.15);
+        }
+        .search-icon {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #00bfa5;
+            font-size: 1.3em;
+        }
+        .table-card {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 6px 24px rgba(32,58,67,0.08);
+            overflow-x: auto;
+            width: 100%;
+            max-width: 1100px;
+            padding: 28px;
+        }
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 1.05em;
+            background: transparent;
+        }
+        thead th {
+            background: #f2f8fa;
+            color: #00bfa5;
+            font-weight: 600;
+            text-transform: uppercase;
+            padding: 14px 8px;
+            border-bottom: 2px solid #e3e3e3;
+        }
+        tbody td {
+            padding: 13px 8px;
+            background: transparent;
+            color: #333;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        tbody tr {
+            transition: box-shadow 0.2s;
+        }
+        tbody tr:hover td {
+            background: #e0f7fa;
+            box-shadow: 0 2px 8px rgba(0,191,165,0.08);
+        }
+        .edit-btn, .save-btn {
+            background: linear-gradient(90deg, #00ffcc, #00ff99);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            color: #203a43;
+            font-weight: 600;
+            margin: 2px 0;
+            box-shadow: 0 2px 6px rgba(0,255,204,0.08);
+            transition: background 0.2s, color 0.2s, transform 0.1s;
+        }
+        .edit-btn:hover, .save-btn:hover {
+            background: linear-gradient(90deg, #00bfa5, #00ffcc);
+            color: #fff;
+            transform: scale(1.08);
+        }
+        .highlight-save {
+            animation: highlight 1s;
+        }
+        @keyframes highlight {
+            0% { background: #b2fef7;}
+            100% { background: transparent;}
+        }
+        @media (max-width: 900px) {
+            .dashboard-wrapper { flex-direction: column; }
+            .sidebar { flex-direction: row; width: 100%; min-height: unset; padding: 18px 10px;}
+            .container { padding: 20px 2vw;}
+            .table-card { padding: 10px; }
+            table { font-size: 0.95em;}
+        }
+        @media (max-width: 600px) {
+            .sidebar { flex-direction: column; width: 100%; }
+            .container { padding: 8px 1vw;}
+            h1 { font-size: 1.2em;}
+            .table-card { padding: 2px; }
+            table { font-size: 0.85em;}
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard-wrapper">
+    <div class="sidebar">
+        <a href="/doctor/appointments"><i class="e"></i> Appointments</a>
+        <a href="/admin_logout"><i class="e"></i> Logout</a>
+    </div>
+    <main class="container">
+        <h1>Patient Details</h1>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search Patient...">
+            <span class="search-icon">&#128269;</span>
+        </div>
+        <div class="table-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Patient ID</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>DOB</th>
+                        <th>Phone</th>
+                        <th>Gender</th>
+                        <th>Email</th>
+                        <th>Medical Issues</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="patientTable">
+                    {% for patient in patients %}
+                        <tr>
+                            <td>{{ patient[0] }}</td>
+                            <td contenteditable="false">{{ patient[1] }}</td>
+                            <td contenteditable="false">{{ patient[2] }}</td>
+                            <td contenteditable="false">{{ patient[3] }}</td>
+                            <td contenteditable="false">{{ patient[4] }}</td>
+                            <td contenteditable="false">{{ patient[5] }}</td>
+                            <td contenteditable="false">{{ patient[6] }}</td>
+                            <td contenteditable="false">{{ patient[7] }}</td>
+                            <td>
+                                <button class="edit-btn">Edit</button>
+                                <button class="save-btn" style="display:none;">Save</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+<script>
+    $(document).ready(function(){
+        $("#searchInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#patientTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+
+        $(document).on("click", ".edit-btn", function() {
+            let row = $(this).closest("tr");
+            row.find("td[contenteditable]").attr("contenteditable", "true").css("background", "#e0f7fa");
+            $(this).hide();
+            row.find(".save-btn").show();
+        });
+        $(document).on("click", ".save-btn", function() {
+            let row = $(this).closest("tr");
+            row.find("td[contenteditable]").attr("contenteditable", "false").css("background", "");
+            $(this).hide();
+            row.find(".edit-btn").show();
+            row.addClass("highlight-save");
+            setTimeout(() => row.removeClass("highlight-save"), 1000);
+        });
+    });
+</script>
+</body>
+</html>

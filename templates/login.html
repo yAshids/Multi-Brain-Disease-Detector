@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login | Brain Disease Detector</title>
+
+  <!-- Google Fonts & Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #00c3ff;
+      --radius: 16px;
+      --glass-light: rgba(255, 255, 255, 0.4);
+      --glass-dark: rgba(0, 0, 0, 0.4);
+    }
+
+    /* Dark Theme */
+    html[data-theme='dark'] {
+      --bg: linear-gradient(120deg, #2c5364, #203a43, #0f2027);
+      --text: #ffffff;
+      --subtext: #cdefff;
+      --input-bg: rgba(255, 255, 255, 0.08);
+      --input-border: rgba(255, 255, 255, 0.2);
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --label-bg: #203a43;
+      --glass: var(--glass-dark);
+    }
+
+    /* Light Theme */
+    html[data-theme='light'] {
+      --bg: linear-gradient(120deg, #c1dfc4, #deecdd);
+      --text: #1a1a1a;
+      --subtext: #444;
+      --input-bg: rgba(255, 255, 255, 0.85);
+      --input-border: rgba(0, 0, 0, 0.1);
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --label-bg: #ffffff;
+      --glass: var(--glass-light);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      transition: background 0.5s ease;
+    }
+
+    .container {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border-radius: var(--radius);
+      padding: 48px 36px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+      animation: slideUp 0.8s ease;
+      position: relative;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      font-size: 1.3rem;
+      cursor: pointer;
+      color: var(--primary);
+    }
+
+    .title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: var(--subtext);
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .form-group {
+      position: relative;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px 14px 14px 44px;
+      border: 1px solid var(--input-border);
+      background: var(--input-bg);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 1rem;
+      transition: 0.3s ease;
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(0, 195, 255, 0.2);
+    }
+
+    .form-group label {
+      position: absolute;
+      left: 44px;
+      top: 13px;
+      font-size: 1rem;
+      color: var(--subtext);
+      pointer-events: none;
+      transition: 0.2s ease;
+    }
+
+    .form-group input:focus + label,
+    .form-group input:not(:placeholder-shown) + label {
+      top: -10px;
+      left: 38px;
+      font-size: 0.8rem;
+      background: var(--label-bg);
+      padding: 0 5px;
+      border-radius: 4px;
+      color: var(--primary);
+    }
+
+    .input-icon {
+      position: absolute;
+      top: 50%;
+      left: 16px;
+      transform: translateY(-50%);
+      color: var(--primary);
+      font-size: 1.1rem;
+    }
+
+    .login-btn {
+      padding: 14px;
+      background: var(--primary);
+      color: #000;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .login-btn:hover {
+      background: #00b5f1;
+    }
+
+    .spinner {
+      display: none;
+      width: 24px;
+      height: 24px;
+      border: 3px solid rgba(0, 195, 255, 0.3);
+      border-top: 3px solid var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 16px auto 0;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .links {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: var(--subtext);
+    }
+
+    .links a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="theme-toggle" onclick="toggleTheme()" title="Toggle dark/light mode">
+      <i id="theme-icon" class="fas fa-moon"></i>
+    </div>
+
+    <div class="title">
+      <i class="fas fa-brain"></i> Brain Disease Detector
+    </div>
+    <div class="subtitle">Login securely to access the system</div>
+
+    <form method="POST" action="/login" onsubmit="showSpinner()">
+      <div class="form-group">
+        <input type="text" name="username" id="username" required placeholder=" " autocomplete="username" />
+        <label for="username">Username</label>
+        <span class="input-icon"><i class="fas fa-user"></i></span>
+      </div>
+
+      <div class="form-group">
+        <input type="password" name="password" id="password" required placeholder=" " autocomplete="current-password" />
+        <label for="password">Password</label>
+        <span class="input-icon"><i class="fas fa-lock"></i></span>
+      </div>
+
+      <button type="submit" class="login-btn">Login</button>
+      <div class="spinner" id="spinner"></div>
+    </form>
+
+    <div class="links">
+      Don't have an account? <a href="/register">Register</a><br/>
+      <a href="/admin_login"><i class="fas fa-user-shield"></i> Admin Login</a>
+    </div>
+  </div>
+
+  <script>
+    function showSpinner() {
+      document.getElementById('spinner').style.display = 'block';
+    }
+
+    // Dark/Light mode toggle logic
+    const themeIcon = document.getElementById("theme-icon");
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const current = html.getAttribute("data-theme");
+      const next = current === "dark" ? "light" : "dark";
+      html.setAttribute("data-theme", next);
+      themeIcon.className = next === "dark" ? "fas fa-moon" : "fas fa-sun";
+      localStorage.setItem("theme", next);
+    }
+
+    // Load saved theme
+    window.addEventListener("DOMContentLoaded", () => {
+      const saved = localStorage.getItem("theme");
+      if (saved) {
+        document.documentElement.setAttribute("data-theme", saved);
+        themeIcon.className = saved === "dark" ? "fas fa-moon" : "fas fa-sun";
+      }
+    });
+  </script>
+</body>
+</html>

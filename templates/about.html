@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <!-- Google Fonts & Font Awesome for icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #056060;
+            --secondary: #0b6767;
+            --accent: #ffe600;
+            --white: #fff;
+            --shadow: 0 4px 20px rgba(0,0,0,0.13);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
+            background-size: 200% 200%;
+            animation: gradientMove 16s ease-in-out infinite;
+            color: #222;
+            min-height: 100vh;
+        }
+        @keyframes gradientMove {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+        nav {
+            background: rgba(0,0,0,0.07);
+            padding: 18px 0 10px 0;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            font-size: 1.08rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: bold;
+            position: relative;
+            transition: color 0.2s;
+        }
+        nav a::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width .3s;
+            position: absolute;
+            left: 0; bottom: -5px;
+        }
+        nav a:hover, nav a:focus {
+            color: var(--accent);
+        }
+        nav a:hover::after, nav a:focus::after {
+            width: 100%;
+        }
+        .hero {
+            background: linear-gradient(90deg, var(--primary) 60%, var(--secondary) 100%);
+            color: var(--white);
+            text-align: center;
+            padding: 80px 20px 60px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero h1 {
+            font-size: 2.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            font-weight: 700;
+            animation: fadeInDown 1.2s cubic-bezier(.4,0,.2,1);
+        }
+        .hero p {
+            font-size: 1.22rem;
+            font-weight: 500;
+            color: var(--accent);
+            animation: fadeInDown 1.6s cubic-bezier(.4,0,.2,1);
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            left: -70px;
+            top: 10%;
+            width: 160px;
+            height: 160px;
+            background: rgba(255,255,255,0.10);
+            border-radius: 50%;
+            filter: blur(2px);
+            animation: float 8s ease-in-out infinite alternate;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            right: -80px;
+            bottom: 10%;
+            width: 120px;
+            height: 120px;
+            background: rgba(255,255,255,0.09);
+            border-radius: 50%;
+            filter: blur(2px);
+            animation: float 10s ease-in-out infinite alternate-reverse;
+        }
+        @keyframes float {
+            0% { transform: translateY(0);}
+            100% { transform: translateY(30px);}
+        }
+        .content {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        .section {
+            background: rgba(255,255,255,0.92);
+            margin-bottom: 32px;
+            border-radius: 16px;
+            padding: 38px 32px 34px 32px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s cubic-bezier(.4,2,.2,1), box-shadow 0.3s, background 0.3s;
+            animation: slideUp 1s cubic-bezier(.4,0,.2,1);
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+        .section:nth-child(1) { animation-delay: 0.2s; }
+        .section:nth-child(2) { animation-delay: 0.4s; }
+        .section:nth-child(3) { animation-delay: 0.6s; }
+        .section:nth-child(4) { animation-delay: 0.8s; }
+        .section:hover {
+            transform: translateY(-7px) scale(1.03);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.13);
+            background: #fff;
+        }
+        .section h2 {
+            color: var(--secondary);
+            margin-bottom: 18px;
+            letter-spacing: 1px;
+            font-size: 1.45rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section h2 i {
+            color: var(--primary);
+            font-size: 1.4em;
+        }
+        .section p, .section ul {
+            font-size: 1.08rem;
+            line-height: 1.7;
+        }
+        ul {
+            margin-top: 12px;
+            padding-left: 22px;
+        }
+        ul li {
+            margin-bottom: 10px;
+            position: relative;
+        }
+        ul li::before {
+            content: '✔';
+            color: var(--primary);
+            font-size: 1em;
+            margin-right: 8px;
+        }
+        /* Animations */
+        @keyframes fadeInDown {
+            0% { opacity: 0; transform: translateY(-20px);}
+            100% { opacity: 1; transform: translateY(0);}
+        }
+        @keyframes slideUp {
+            0% { opacity: 0; transform: translateY(40px);}
+            100% { opacity: 1; transform: translateY(0);}
+        }
+        /* Responsive */
+        @media (max-width: 900px) {
+            .content { padding: 10px;}
+            .section { padding: 28px 10px 24px 10px;}
+        }
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2rem;}
+            .content { padding: 4px;}
+            .section { padding: 18px 6px 16px 6px;}
+            nav { gap: 18px; font-size: 1rem;}
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="{{ url_for('home') }}">Dashboard</a>
+    <a href="{{ url_for('about') }}">About Us</a>
+    <a href="/appointments">Appointment</a>
+    <a href="{{ url_for('contact') }}">Contact</a>
+</nav>
+
+<div class="hero">
+    <h1>About Us</h1>
+    <p>AI for better brain health: Early detection, smarter care.</p>
+</div>
+
+<div class="content">
+    <div class="section">
+        <h2><i class="fas fa-users"></i> Who We Are</h2>
+        <p>We're a team of developers and healthcare researchers passionate about using artificial intelligence to improve early diagnosis of brain-related diseases. Our solution supports detection of Alzheimer's, strokes, and brain tumors through medical imaging.</p>
+    </div>
+
+    <div class="section">
+        <h2><i class="fas fa-lightbulb"></i> What We Do</h2>
+        <p>We integrate deep learning models with a clean interface that allows clinicians and users to upload scans, receive predictions, and generate reports-all in one place. Our goal is to make detection accessible and reliable.</p>
+    </div>
+
+    <div class="section">
+        <h2><i class="fas fa-bullseye"></i> Our Vision</h2>
+        <p>We envision a healthcare system where no patient has to wait too long for a diagnosis. Our AI platform bridges the gap between medical professionals and advanced diagnostics, especially in underserved regions.</p>
+    </div>
+
+    <div class="section">
+        <h2><i class="fas fa-star"></i> Why Choose Us?</h2>
+        <ul>
+            <li>Fast and accurate AI-powered results</li>
+            <li>Supports multiple brain diseases</li>
+            <li>Downloadable, doctor-friendly PDF reports</li>
+            <li>Free to use and built with care</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    // Animate sections on load for entrance effect
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.section').forEach((section, i) => {
+            setTimeout(() => {
+                section.style.opacity = 1;
+            }, 200 + i * 200);
+        });
+    });
+</script>
+</body>
+</html>

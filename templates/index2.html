@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disease Detection</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Animate.css for entrance/fade/attention animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #232526 0%, #0b6767 100%);
+            background-size: 400% 400%;
+            animation: gradientMove 18s ease infinite;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        @keyframes gradientMove {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+        /* Navigation */
+        nav {
+            width:100%;
+            background:rgba(255,255,255,0.08);
+            padding:18px 0 10px 0;
+            display:flex;
+            justify-content:center;
+            gap:32px;
+            font-size:1.08rem;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 2px 12px rgba(31,38,135,0.07);
+        }
+        nav a {
+            color:#fff;
+            text-decoration:none;
+            font-weight:bold;
+            position: relative;
+            transition: color 0.2s;
+        }
+        nav a::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: #FFB22C;
+            transition: width .3s;
+            position: absolute;
+            left: 0; bottom: -5px;
+        }
+        nav a:hover, nav a:focus {
+            color: #FFB22C;
+        }
+        nav a:hover::after, nav a:focus::after {
+            width: 100%;
+        }
+        /* Hero Section */
+        .hero {
+            margin-top: 32px;
+            margin-bottom: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeInDown 1s;
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-40px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .hero-icon {
+            background: linear-gradient(135deg, #FFB22C 60%, #fff 100%);
+            border-radius: 50%;
+            width: 90px; height: 90px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 8px 32px 0 rgba(255, 178, 44, 0.22);
+            margin-bottom: 18px;
+            animation: pulseGlow 2.5s infinite alternate;
+        }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 8px 32px 0 rgba(255, 178, 44, 0.22);}
+            100% { box-shadow: 0 0px 60px 0 rgba(255, 178, 44, 0.38);}
+        }
+        .hero h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #FFB22C, #fff 80%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            letter-spacing: 2px;
+        }
+        .hero p {
+            font-size: 1.18rem;
+            color: #FFB22C;
+            margin-bottom: 0;
+            margin-top: 0;
+            font-weight: 500;
+        }
+        /* Section Title */
+        h2 {
+            font-size: 2.1rem;
+            margin: 38px 0 20px;
+            background: linear-gradient(90deg, #FFB22C, #fff 80%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        /* Cards */
+        .card-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.10);
+            border-radius: 25px;
+            padding: 40px 30px 30px 30px;
+            width: 220px;
+            cursor: pointer;
+            text-align: center;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+            backdrop-filter: blur(8px);
+            transition: transform 0.4s cubic-bezier(.4,2,.2,1), box-shadow 0.3s, background 0.3s;
+            color: #fff;
+            font-size: 1.15rem;
+            font-weight: 600;
+            position: relative;
+            border: 2px solid transparent;
+            opacity: 0;
+            animation: cardIn 0.9s cubic-bezier(.4,0,.2,1) forwards;
+        }
+        .card:nth-child(1) { animation-delay: 0.2s; }
+        .card:nth-child(2) { animation-delay: 0.4s; }
+        .card:nth-child(3) { animation-delay: 0.6s; }
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(40px) scale(0.95);}
+            to   { opacity: 1; transform: translateY(0) scale(1);}
+        }
+        .card i {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            color: #FFB22C;
+            transition: color 0.3s;
+        }
+        .card:hover, .card.selected {
+            transform: translateY(-12px) scale(1.08) rotate(-2deg);
+            box-shadow: 0 18px 40px 0 rgba(255, 178, 44, 0.25);
+            background: rgba(255,255,255,0.18);
+            border: 2px solid #FFB22C;
+        }
+        .card.selected i {
+            color: #FFB22C;
+        }
+        /* Upload Form */
+        #upload-form {
+            display: none;
+            margin-top: 35px;
+            padding: 32px 28px 24px 28px;
+            background: rgba(255,255,255,0.13);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            backdrop-filter: blur(12px);
+            animation: fadeIn 0.7s cubic-bezier(.4,0,.2,1);
+            width: 95%;
+            max-width: 420px;
+        }
+        #upload-form h3 {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            color: #FFB22C;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        input[type="file"] {
+            margin-top: 10px;
+            padding: 10px 0;
+            border-radius: 8px;
+            background: #fff;
+            color: #222;
+            font-size: 1rem;
+            border: none;
+            width: 100%;
+            box-shadow: 0 2px 8px rgba(255, 117, 140, 0.07);
+        }
+        #submit-btn {
+            margin-top: 22px;
+            padding: 13px 38px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(90deg, #FFB22C, #FFB22C);
+            color: #000;
+            font-weight: bold;
+            transition: 0.2s;
+            box-shadow: 0 6px 18px rgba(255, 117, 140, 0.18);
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+        #submit-btn::after {
+            content: "";
+            position: absolute;
+            left: 50%; top: 50%;
+            width: 0; height: 0;
+            background: rgba(255,178,44,0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease, height 0.4s ease;
+            z-index: 0;
+        }
+        #submit-btn:active::after {
+            width: 220px;
+            height: 220px;
+            transition: 0s;
+        }
+        #submit-btn span {
+            position: relative;
+            z-index: 1;
+        }
+        #submit-btn:hover {
+            background: linear-gradient(90deg, #000, #222 80%);
+            color: #fff;
+            border: 2px solid #FFB22C;
+            transform: scale(1.08);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        /* Chatbot Styles */
+        #chatbot-widget {
+            position: fixed;
+            bottom: 22px;
+            right: 22px;
+            z-index: 9999;
+            font-family: 'Poppins', sans-serif;
+        }
+        #chatbot-toggle {
+            background: linear-gradient(90deg, #FFB22C, #FFB22C);
+            color: #000;
+            border: none;
+            border-radius: 50%;
+            width: 54px;
+            height: 54px;
+            font-size: 1.8rem;
+            box-shadow: 0 6px 18px rgba(255, 117, 140, 0.18);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        #chatbot-toggle:hover {
+            transform: scale(1.08);
+        }
+        #chatbot-window {
+            display: none;
+            flex-direction: column;
+            width: 340px;
+            max-width: 96vw;
+            height: 500px;
+            max-height: 90vh;
+            background: rgba(44, 44, 54, 0.98);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+            overflow: hidden;
+            position: absolute;
+            bottom: 65px;
+            right: 0;
+            animation: chatbotIn 0.5s cubic-bezier(.4,0,.2,1);
+            font-size: 1rem;
+        }
+        @keyframes chatbotIn {
+            from { opacity: 0; transform: scale(0.8) translateY(60px);}
+            to   { opacity: 1; transform: scale(1) translateY(0);}
+        }
+        #chatbot-header {
+            background: linear-gradient(90deg, #FFB22C, #FFB22C);
+            color: #000;
+            padding: 12px 16px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            flex-shrink: 0;
+        }
+        #chatbot-header button {
+            background: none;
+            border: none;
+            color: #000;
+            font-size: 2.0rem;
+            cursor: pointer;
+        }
+        #chatbot-messages {
+            flex: 1 1 0;
+            padding: 10px 10px 6px 10px;
+            overflow-y: auto;
+            background: none;
+            font-size: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-height: 80px;
+        }
+        #chatbot-messages .bot, #chatbot-messages .user {
+            max-width: 85%;
+            word-break: break-word;
+            padding: 8px 12px;
+            border-radius: 10px;
+            display: inline-block;
+            font-size: 1rem;
+            line-height: 1.5;
+            opacity: 0;
+            animation: messageIn 0.6s cubic-bezier(.4,0,.2,1) forwards;
+        }
+        #chatbot-messages .bot {
+            background: #000;
+            color: #fff;
+            align-self: flex-start;
+            box-shadow: 0 2px 8px rgba(255, 178, 44, 0.07);
+        }
+        #chatbot-messages .user {
+            background: #fff;
+            color: #232526;
+            align-self: flex-end;
+            margin-left: 15%;
+            box-shadow: 0 2px 8px rgba(255, 178, 44, 0.07);
+        }
+        @keyframes messageIn {
+            from { opacity: 0; transform: translateY(20px);}
+            to   { opacity: 1; transform: translateY(0);}
+        }
+        #chatbot-quick-questions-container {
+            background: rgba(255,255,255,0.09);
+            padding: 7px 8px 4px 8px;
+            max-height: 80px;
+            overflow-y: auto;
+            border-bottom: 1px solid #FFB22C;
+            flex-shrink: 0;
+        }
+        #chatbot-quick-questions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+        }
+        #chatbot-quick-questions button {
+            background: #000;
+            color: #FFB22C;
+            border: none;
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            margin-bottom: 2px;
+            box-shadow: 0 1px 4px rgba(255, 117, 140, 0.07);
+        }
+        #chatbot-quick-questions button:hover {
+            background: #FFB22C ;
+            color: #000;
+        }
+        #chatbot-form {
+            display: flex;
+            padding: 8px 10px;
+            border-top: 1px solid #ff7eb3;
+            background: none;
+            flex-shrink: 0;
+        }
+        #chatbot-input {
+            flex: 1;
+            padding: 7px 10px;
+            border-radius: 8px;
+            border: none;
+            font-size: 1rem;
+            margin-right: 8px;
+            background: #f9f9f9;
+            color: #232526;
+        }
+        #chatbot-form button {
+            background: linear-gradient(90deg, #FFB22C, #FFB22C);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            padding: 0 12px;
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+        /* Responsive */
+        @media (max-width: 900px) {
+            .card-container {
+                flex-direction: column;
+                gap: 22px;
+            }
+            .card {
+                width: 85vw;
+                max-width: 320px;
+            }
+        }
+        @media (max-width: 600px) {
+            h2 { font-size: 1.4rem; }
+            #upload-form { padding: 18px 10px 16px 10px; }
+            #chatbot-window {
+                width: 98vw;
+                right: -8px;
+                bottom: 62px;
+                height: 65vh;
+                font-size: 0.96rem;
+            }
+            #chatbot-header {
+                font-size: 1rem;
+                padding: 9px 6px;
+            }
+            #chatbot-quick-questions-container {
+                padding: 5px 4px 2px 4px;
+                max-height: 38px;
+            }
+            #chatbot-form {
+                padding: 6px 4px;
+            }
+            #chatbot-messages {
+                padding: 6px 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('home') }}">Dashboard</a>
+        <a href="{{ url_for('about') }}">About Us</a>
+        <a href="/appointments">Appointment</a>
+        <a href="{{ url_for('contact') }}">Contact</a>
+        <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </nav>
+
+    
+
+    <div class="hero animate__animated animate__fadeInDown">
+        <div class="hero-icon">
+            <i class="fas fa-brain" style="font-size:2.7rem;"></i>
+        </div>
+        <h1>Brain Disease Predictor</h1>
+        <p>AI-powered early detection for Alzheimer's, Stroke, and Tumor</p>
+    </div>
+
+    <h2>Select a Disease</h2>
+    <div class="card-container">
+        <div class="card" onclick="selectDisease('alzheimers', this)">
+            <i class="fas fa-brain"></i><br>
+            Alzheimer's
+        </div>
+        <div class="card" onclick="selectDisease('stroke', this)">
+            <i class="fas fa-heartbeat"></i><br>
+            Brain Stroke
+        </div>
+        <div class="card" onclick="selectDisease('tumor', this)">
+            <i class="fas fa-dna"></i><br>
+            Brain Tumor
+        </div>
+    </div>
+
+    <div id="upload-form">
+        <h3 id="disease-title"></h3>
+        <form action="/predict" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="disease" id="selected-disease">
+            <input type="file" name="file" required>
+            <br>
+            <button type="submit" id="submit-btn"><span>Upload & Predict</span></button>
+        </form>
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div id="chatbot-widget">
+        <button id="chatbot-toggle">
+            <i class="fas fa-comments"></i>
+        </button>
+        <div id="chatbot-window">
+            <div id="chatbot-header">
+                <span>Brain Disease Chatbot</span>
+                <button id="chatbot-close" aria-label="Close Chatbot">&times;</button>
+            </div>
+            <div id="chatbot-messages"></div>
+            <div id="chatbot-quick-questions-container">
+                <div id="chatbot-quick-questions"></div>
+            </div>
+            <form id="chatbot-form" autocomplete="off">
+                <input type="text" id="chatbot-input" autocomplete="off" placeholder="Type your question..." />
+                <button type="submit" aria-label="Send"><i class="fas fa-paper-plane"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Disease card selection logic
+        function selectDisease(disease, cardElem) {
+            document.getElementById("selected-disease").value = disease;
+            document.getElementById("disease-title").innerText = 
+                disease === "alzheimers" ? "Alzheimer's Disease Detection" :
+                disease === "stroke" ? "Brain Stroke Detection" :
+                "Brain Tumor Detection";
+            
+            document.getElementById("upload-form").style.display = "block";
+
+            document.querySelectorAll(".card").forEach(card => {
+                card.classList.remove("selected");
+            });
+            cardElem.classList.add("selected");
+
+            // Scroll to the upload form smoothly (especially on mobile)
+            setTimeout(() => {
+                document.getElementById("upload-form").scrollIntoView({ behavior: "smooth", block: "center" });
+            }, 100);
+        }
+
+        // --- Chatbot Logic ---
+        const chatbotToggle = document.getElementById('chatbot-toggle');
+        const chatbotWindow = document.getElementById('chatbot-window');
+        const chatbotClose = document.getElementById('chatbot-close');
+        const chatbotMessages = document.getElementById('chatbot-messages');
+        const chatbotForm = document.getElementById('chatbot-form');
+        const chatbotInput = document.getElementById('chatbot-input');
+        const chatbotQuickQuestions = document.getElementById('chatbot-quick-questions');
+
+        const quickQuestions = [
+            "What is Alzheimer's disease?",
+            "What are the symptoms of brain stroke?",
+            "How is a brain tumor detected?",
+            "What tests are needed for diagnosis?",
+            "What treatments are available?",
+            "Is early detection important?",
+            "How accurate is this system?",
+            "Can I trust AI predictions?",
+            "What should I do if my result is positive?",
+            "How do I contact a doctor?"
+        ];
+
+        // Show chatbot on button click
+        chatbotToggle.onclick = () => {
+            chatbotWindow.style.display = 'flex';
+            chatbotToggle.style.display = 'none';
+            chatbotInput.focus();
+            if (chatbotMessages.childElementCount === 0) {
+                addBotMessage("Hi! 👋 I am your Brain Disease Assistant. Choose a question below or type your own.");
+                renderQuickQuestions();
+            }
+        };
+        // Hide chatbot on close click
+        chatbotClose.onclick = () => {
+            chatbotWindow.style.display = 'none';
+            chatbotToggle.style.display = 'block';
+        };
+
+        function addBotMessage(text) {
+            const msg = document.createElement('div');
+            msg.className = 'bot';
+            msg.innerText = text;
+            chatbotMessages.appendChild(msg);
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }
+        function addUserMessage(text) {
+            const msg = document.createElement('div');
+            msg.className = 'user';
+            msg.innerText = text;
+            chatbotMessages.appendChild(msg);
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }
+        function renderQuickQuestions() {
+            chatbotQuickQuestions.innerHTML = '';
+            quickQuestions.forEach(q => {
+                const btn = document.createElement('button');
+                btn.innerText = q;
+                btn.onclick = () => {
+                    chatbotQuickQuestions.innerHTML = '';
+                    sendMessage(q);
+                };
+                chatbotQuickQuestions.appendChild(btn);
+            });
+        }
+        function sendMessage(message) {
+            addUserMessage(message);
+            chatbotInput.value = '';
+            fetch('/chatbot', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message })
+            })
+            .then(res => res.json())
+            .then(data => {
+                addBotMessage(data.reply);
+                renderQuickQuestions();
+            })
+            .catch(() => addBotMessage("Sorry, I couldn't reach the server."));
+        }
+        chatbotForm.onsubmit = (e) => {
+            e.preventDefault();
+            const message = chatbotInput.value.trim();
+            if (message) {
+                chatbotQuickQuestions.innerHTML = '';
+                sendMessage(message);
+            }
+        };
+    </script>
+</body>
+</html>

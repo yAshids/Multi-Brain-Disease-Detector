@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts & Font Awesome for icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #056060;
+            --secondary: #0b6767;
+            --accent: #ffe600;
+            --white: #fff;
+            --shadow: 0 6px 32px rgba(0,0,0,0.13);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(120deg, var(--primary), var(--secondary) 100%);
+            background-size: 200% 200%;
+            animation: gradientMove 14s ease-in-out infinite;
+            color: #222;
+            min-height: 100vh;
+        }
+        @keyframes gradientMove {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+        nav {
+            background: rgba(0,0,0,0.07);
+            padding: 18px 0 10px 0;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            font-size: 1.08rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: bold;
+            position: relative;
+            transition: color 0.2s;
+        }
+        nav a::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width .3s;
+            position: absolute;
+            left: 0; bottom: -5px;
+        }
+        nav a:hover, nav a:focus { color: var(--accent);}
+        nav a:hover::after, nav a:focus::after { width: 100%;}
+        .header {
+            background: linear-gradient(90deg, var(--primary) 60%, var(--secondary) 100%);
+            color: var(--white);
+            text-align: center;
+            padding: 70px 20px 60px 20px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInDown 1.2s cubic-bezier(.4,0,.2,1);
+        }
+        .header::before, .header::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(2px);
+            opacity: 0.13;
+            z-index: 0;
+        }
+        .header::before {
+            left: -60px; top: 16%;
+            width: 120px; height: 120px;
+            background: var(--accent);
+            animation: float 8s ease-in-out infinite alternate;
+        }
+        .header::after {
+            right: -70px; bottom: 10%;
+            width: 100px; height: 100px;
+            background: var(--white);
+            animation: float 10s ease-in-out infinite alternate-reverse;
+        }
+        @keyframes float {
+            0% { transform: translateY(0);}
+            100% { transform: translateY(30px);}
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            padding: 60px 20px;
+            animation: slideUp 1s cubic-bezier(.4,0,.2,1);
+        }
+        .contact-card, .contact-form {
+            width: 100%;
+            max-width: 480px;
+            background: rgba(255,255,255,0.97);
+            padding: 36px 30px 32px 30px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s cubic-bezier(.4,2,.2,1), box-shadow 0.3s, background 0.3s;
+            position: relative;
+            opacity: 0;
+            animation: sectionIn 1.1s cubic-bezier(.4,0,.2,1) forwards;
+        }
+        .contact-card { animation-delay: 0.2s;}
+        .contact-form { animation-delay: 0.4s;}
+        .contact-card:hover, .contact-form:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.13);
+            background: #fff;
+        }
+        @keyframes fadeInDown {
+            0% { opacity: 0; transform: translateY(-30px);}
+            100% { opacity: 1; transform: translateY(0);}
+        }
+        @keyframes slideUp {
+            0% { opacity: 0; transform: translateY(40px);}
+            100% { opacity: 1; transform: translateY(0);}
+        }
+        @keyframes sectionIn {
+            0% { opacity: 0; transform: translateY(40px);}
+            100% { opacity: 1; transform: translateY(0);}
+        }
+        h2 {
+            color: var(--secondary);
+            margin-bottom: 18px;
+            font-size: 1.35rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .contact-card h2 i, .contact-form h2 i {
+            color: var(--primary);
+            font-size: 1.3em;
+        }
+        .contact-card p, .contact-card a, label {
+            font-size: 1.05rem;
+            color: #555;
+        }
+        .contact-card p strong {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 18px;
+            color: #222;
+            font-size: 1.08rem;
+        }
+        .contact-card a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .contact-card a:hover { color: var(--primary);}
+        .contact-info-list {
+            margin-top: 18px;
+        }
+        .contact-info-list p {
+            margin-bottom: 12px;
+        }
+        .contact-info-list i {
+            color: var(--primary);
+            margin-right: 10px;
+            font-size: 1.2em;
+            animation: ring 2.5s infinite;
+            transform-origin: 60% 60%;
+        }
+        @keyframes ring {
+            0% { transform: rotate(0);}
+            1% { transform: rotate(20deg);}
+            3% { transform: rotate(-18deg);}
+            5% { transform: rotate(16deg);}
+            7% { transform: rotate(-14deg);}
+            9% { transform: rotate(12deg);}
+            11% { transform: rotate(-10deg);}
+            13% { transform: rotate(8deg);}
+            15% { transform: rotate(-6deg);}
+            17% { transform: rotate(4deg);}
+            19% { transform: rotate(-2deg);}
+            21% { transform: rotate(0);}
+            100% { transform: rotate(0);}
+        }
+        /* Form Styles */
+        .contact-form label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: var(--secondary);
+            letter-spacing: 0.5px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 14px 12px 14px 12px;
+            border: 1.5px solid #c2e5f9;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            background: #f7fafc;
+            color: #222;
+            transition: border 0.3s, box-shadow 0.3s;
+            outline: none;
+            font-family: inherit;
+            box-shadow: 0 2px 8px rgba(0,180,219,0.05);
+        }
+        .contact-form input:focus, .contact-form textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px #00b4db33;
+        }
+        .contact-form textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+        .contact-form input[type="submit"] {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: var(--white);
+            border: none;
+            padding: 14px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.08rem;
+            letter-spacing: 1px;
+            transition: background 0.25s, transform 0.2s;
+            box-shadow: 0 4px 18px rgba(0,180,219,0.13);
+            position: relative;
+            overflow: hidden;
+        }
+        .contact-form input[type="submit"]:hover {
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            transform: scale(1.05);
+        }
+        /* Floating label effect */
+        .form-group input:focus + .floating-label,
+        .form-group input:not(:placeholder-shown) + .floating-label,
+        .form-group textarea:focus + .floating-label,
+        .form-group textarea:not(:placeholder-shown) + .floating-label {
+            top: -14px;
+            left: 8px;
+            font-size: 0.92em;
+            color: var(--primary);
+            background: #fff;
+            padding: 0 6px;
+            border-radius: 6px;
+            opacity: 1;
+        }
+        .floating-label {
+            position: absolute;
+            left: 16px;
+            top: 14px;
+            pointer-events: none;
+            font-size: 1.05em;
+            color: #888;
+            transition: 0.2s;
+            background: transparent;
+            opacity: 0.9;
+        }
+        @media (max-width: 900px) {
+            .container { padding: 40px 10px; gap: 22px;}
+            .contact-card, .contact-form { padding: 24px 10px 20px 10px;}
+        }
+        @media (max-width: 600px) {
+            .header { padding: 38px 10px 28px 10px; font-size: 1.1rem;}
+            .container { flex-direction: column; padding: 18px 2px;}
+            .contact-card, .contact-form { max-width: 99vw; }
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="{{ url_for('home') }}">Dashboard</a>
+    <a href="{{ url_for('about') }}">About Us</a>
+    <a href="/appointments">Appointment</a>
+    <a href="{{ url_for('contact') }}">Contact</a>
+</nav>
+<div class="header">
+    Reach out to our team for more information or assistance
+</div>
+<div class="container">
+    <div class="contact-card">
+        <h2><i class="fas fa-address-book"></i> Get in Touch</h2>
+        <p>Have questions about our services or need technical assistance? Our team is here to help.</p>
+        <div class="contact-info-list">
+            <p>
+                <strong><i class="fas fa-phone-volume"></i> Phone</strong>
+                +91 9876543210<br>
+                <span style="font-size:0.97em;color:#888;">Mon–Fri, 9:00 AM – 6:00 PM</span>
+            </p>
+            <p>
+                <strong><i class="fas fa-envelope"></i> Email</strong>
+                <a href="mailto:info@chestscan.ai">info@brainscan.ai</a><br>
+                <a href="mailto:support@chestscan.ai">support@brainscan.ai</a>
+            </p>
+            <p>
+                <strong><i class="fas fa-map-marker-alt"></i> Location</strong>
+                Tataguni<br>Bengaluru City <br> Ban-560062
+            </p>
+        </div>
+    </div>
+    <div class="contact-form">
+        <h2><i class="fas fa-paper-plane"></i> Send us a Message</h2>
+        <form method="POST" action="{{ url_for('contact') }}" autocomplete="off">
+            <div class="form-group">
+                <input type="text" id="name" name="name" required placeholder=" " autocomplete="name">
+                <span class="floating-label">Your Name</span>
+            </div>
+            <div class="form-group">
+                <input type="email" id="email" name="email" required placeholder=" " autocomplete="email">
+                <span class="floating-label">Your Email</span>
+            </div>
+            <div class="form-group">
+                <input type="text" id="subject" name="subject" required placeholder=" ">
+                <span class="floating-label">Subject</span>
+            </div>
+            <div class="form-group">
+                <textarea id="message" name="message" rows="5" required placeholder=" "></textarea>
+                <span class="floating-label">Message</span>
+            </div>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</div>
+<script>
+    // Animate sections on load for entrance effect
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.contact-card, .contact-form').forEach((section, i) => {
+            setTimeout(() => {
+                section.style.opacity = 1;
+            }, 200 + i * 200);
+        });
+    });
+</script>
+</body>
+</html>
